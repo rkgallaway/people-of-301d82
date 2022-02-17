@@ -1,4 +1,7 @@
 import React from 'react';
+import Col from 'react-bootstrap/Col';
+import Card from 'react-bootstrap/Card';
+
 import Button from 'react-bootstrap/Button';
 
 
@@ -6,7 +9,7 @@ import './Person.css';
 
 class Person extends React.Component {
   // THIS is how we setup state in a component
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       waves: 0,
@@ -33,7 +36,11 @@ class Person extends React.Component {
   helpGiven = () => this.setState({
     needsHelp: false
   });
-  
+
+  handlePersonClick = () => {
+    this.props.addHearts();
+    this.props.handleShowModal(this.props.name);
+  }
 
 
   render() {
@@ -43,21 +50,29 @@ class Person extends React.Component {
     // console.log(this.state);
 
     return (
-      <article>
-        <h3 onClick={this.handleWaves}>{this.props.name}</h3>
-        <p>👋: {this.state.waves}</p>
-        <img src={this.props.imageURL} alt={this.props.name} title={this.props.name}/>
-        {/* wtf */}
-        <p>{this.state.needsHelp ? 'I Need Help!' : ''}</p>
+      <Col>
+        <Card>
+          <Card.Title onClick={this.handleWaves}>{this.props.name}</Card.Title>
+          <Card.Text>
+            👋: {this.state.waves}
+          </Card.Text>
+          <Card.Img
+            src={this.props.imageURL}
+            alt={this.props.name}
+            title={this.props.name}
+            onClick={this.handlePersonClick}
+          />
+          {/* wtf */}
+          <Card.Text>{this.state.needsHelp ? 'I Need Help!' : ''}</Card.Text>
 
-        <Button onClick={this.needsHelp}>
-          I Need Help!
-        </Button>
-        <Button onClick={this.helpGiven} variant="success" className="right-button">
-          Thanks for the Help!
-        </Button>
-
-      </article>
+          <Button onClick={this.needsHelp}>
+            I Need Help!
+          </Button>
+          <Button onClick={this.helpGiven} variant="success" className="right-button">
+            Thanks for the Help!
+          </Button>
+        </Card>
+      </Col>
     );
   }
 }
